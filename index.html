@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                <span class="fs-4">MON PANIER</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+            </ul>
+        </header>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col"><h4><b>Panier</b></h4></div>
+                        <div class="col align-self-center text-right text-muted">3 items</div>
+                    </div>
+                </div>    
+                <div class="row border-top border-bottom">
+                    <div class="row main align-items-center" id="article1">
+                        <div class="col-2"><img class="img-fluid" src="images/tshirt.png"></div>
+                        <div class="col">
+                            <div class="row text-muted">T-Shirt</div>
+                            <div class="row">T-shirt Marron</div>
+                        </div>
+                        <div class="col">
+                            <button class="btnmoins">-</button>
+                            <input  class="border quantite" id="quantite" value="1" disabled>
+                            <button class="btnPlus">+</button>
+                        </div>
+                        <div class="col total" id="total1">
+                            <span class="prix">2500 fcfa </span>
+                            <span class="close"><a href=""> &#10005;</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row main align-items-center" id="article2">
+                        <div class="col-2"><img class="img-fluid" src="images/ordinateur.png"></div>
+                        <div class="col">
+                            <div class="row text-muted">Ordinateur</div>
+                            <div class="row">Macbook</div>
+                        </div>
+                        <div class="col">
+                            <button class="btnmoins">-</button>
+                            <input  class="border quantite" id="quantite" value="1" disabled>                            <button class="btnPlus">+</button>
+                        </div>
+                        <div class="col total" id="total2">
+                            <span class="prix">250.000 fcfa </span>
+                            <span class="close"><a href=""> &#10005;</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border-top border-bottom">
+                    <div class="row main align-items-center" id="article3">
+                        <div class="col-2"><img class="img-fluid" src="images/chaussure.jpeg"></div>
+                        <div class="col">
+                            <div class="row text-muted">Chaussures</div>
+                            <div class="row">Nike Air Force ONE</div>
+                        </div>
+                        <div class="col">
+                            <button class="btnmoins">-</button>
+                            <input  class="border quantite" id="quantite" value="1" disabled>                            <button class="btnPlus">+</button>
+                        </div>
+                        <div class="col total" id="total3">
+                            <span class="prix">35.000 fcfa </span>
+                            <span class="close"><a href=""> &#10005;</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="back-to-shop"><a href="login.html">&leftarrow;<span class="text-muted">Back to login</span></a></div>
+            </div>
+            <div class="col-md-4 summary">
+                <div><h5><b>Summary</b></h5></div>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right" id="Prixtotal" value="0" disabled> fcfa </div>
+                </div>
+                <button class="btn">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>// Selecting elements from the DOM
+        let btnPlus = document.querySelectorAll(".btnPlus");
+        let btnMoins = document.querySelectorAll(".btnmoins");
+        let closeButtons = document.querySelectorAll(".close");
+        let articles = document.querySelectorAll(".main");
+        let prices = document.querySelectorAll(".prix");
+        let quantities = document.querySelectorAll("#quantite"); // Use the class selector
+        let totals = document.querySelectorAll(".total");
+        let sum = document.getElementById("Prixtotal");
+        
+        // Function to calculate the total price
+        function calculateTotal() {
+            let totalPrice = 0;
+            for (let i = 0; i < articles.length; i++) {
+                // Extracting item price and quantity
+                let itemPrice = parseFloat(prices[i].innerText);
+                let itemQty = parseInt(quantities[i].value);
+        
+                // Calculating total for each item
+                let itemTotal = itemPrice * itemQty;
+                totals[i].innerText = itemTotal + " fcfa";
+                totalPrice += itemTotal;
+            }
+        
+            // Updating the total price display
+            sum.innerText = "Total: " + totalPrice + " fcfa";
+        }
+        
+        // Function to update quantity and recalculate total
+        function updateQuantity(index, increment) {
+            let currentQty = parseInt(quantities[index].value);
+            let newQty = currentQty + increment;
+        
+            // Ensure the quantity is not less than 1
+            if (newQty >= 1) {
+                // Update the quantity and recalculate total
+                quantities[index].value = newQty;
+                updatePrice(index, newQty);
+                calculateTotal();
+            }
+        }
+        
+        // Function to update the price based on the quantity
+        function updatePrice(index, newQty) {
+            let currentQty = parseInt(quantities[index].value);
+            let newPrice = currentQty * +prices[index].innerText.split(" ")[0];
+            prices[index].innerText = newPrice + " fcfa";
+            calculateTotal();
+        }
+        
+        // Adding event listeners for the plus buttons
+        btnPlus.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                updateQuantity(index, 1);
+            });
+        });
+        
+        // Adding event listeners for the minus buttons
+        btnMoins.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                updateQuantity(index, -1);
+            });
+        });
+        
+        // Adding event listeners for the close buttons
+        closeButtons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                // Hide the corresponding article and recalculate total
+                articles[index].style.display = "none";
+                calculateTotal();
+            });
+        });
+        
+        // Initial calculation of the total when the page loads
+        calculateTotal();
+        
+    </script>
+</body>
+</html>
